@@ -27,6 +27,7 @@ public class ArmIOSim implements ArmIO {
     }
     @Override
     public void updateInputs(ArmInputs inputs) {
+        System.out.println("Updating Simputs");
         if (DriverStation.isDisabled()) {
             sim.setInputVoltage(0.0);
         }

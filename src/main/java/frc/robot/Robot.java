@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.armIO.Arm;
+import frc.robot.subsystems.armIO.ArmIOSim;
 import org.littletonrobotics.junction.LoggedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,9 +19,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends LoggedRobot {
-  private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  public static Arm arm;
+  public static Joystick joy1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -27,7 +31,21 @@ public class Robot extends LoggedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+
+    Logger.getInstance().addDataReceiver(new NT4Publisher());
+//    TODO: GVersion setup
+//    Logger.getInstance().recordMetadata("GitRevision", Integer.toString(GVersion.GIT_REVISION));
+//    Logger.getInstance().recordMetadata("GitSHA", GVersion.GIT_SHA);
+//    Logger.getInstance().recordMetadata("GitDate", GVersion.GIT_DATE);
+//    Logger.getInstance().recordMetadata("GitBranch", GVersion.GIT_BRANCH);
+//    Logger.getInstance().recordMetadata("BuildDate", GVersion.BUILD_DATE);
+//  TODO: Need a real implementation
+    arm = new Arm(new ArmIOSim());
+    joy1 = new Joystick(1);
+    Logger.getInstance().start();
+
+
+
   }
 
   /**
@@ -53,15 +71,14 @@ public class Robot extends LoggedRobot {
   @Override
   public void disabledPeriodic() {}
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+//    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+//
+//    // schedule the autonomous command (example)
+//    if (m_autonomousCommand != null) {
+//      m_autonomousCommand.schedule();
+//    }
   }
 
   /** This function is called periodically during autonomous. */
@@ -74,14 +91,17 @@ public class Robot extends LoggedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+//    if (m_autonomousCommand != null) {
+//      m_autonomousCommand.cancel();
+//    }
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    arm.setVoltages(12.0*joy1.getX(), 0);
+  }
 
   @Override
   public void testInit() {

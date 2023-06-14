@@ -1,6 +1,7 @@
 package frc.robot.subsystems.armIO;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class Arm extends SubsystemBase {
     public final ArmInputsAutoLogged inputs;
@@ -16,6 +17,11 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         IO.updateInputs(inputs);
-        IO.setVoltageOutputs(1.5, 0);
+        Logger.getInstance().processInputs("Arm", inputs);
+    }
+
+    public void setVoltages(double proximal, double distal) {
+        inputs.proximalOutputVoltage = proximal;
+        IO.setVoltageOutputs(proximal, distal);
     }
 }

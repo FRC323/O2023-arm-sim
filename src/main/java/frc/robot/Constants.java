@@ -20,12 +20,12 @@ public final class Constants {
   public static class Arm {
     public static class Proximal {
 
-        public static double GEARING = 10.0;
-      public static double LENGTH_METERS = Units.inchesToMeters(38.75);
-      public static double MASS_KG = Units.lbsToKilograms(15.0);
+        public static double GEARING = 147.3684211;
+      public static double LENGTH_METERS = Units.inchesToMeters(35.398);
+      public static double MASS_KG = Units.lbsToKilograms(10);
       public static final double INIT_DEG = 45;
-      public static double U_LIMIT_DEG = -45;
-      public static double L_LIMIT_DEG = 45;
+      public static double U_LIMIT_DEG = -38.94;
+      public static double L_LIMIT_DEG = 308.94;
 //      TODO: What are these units?
       public static double MAX_VEL = 400;
       public static double MAX_ACC = 1250;
